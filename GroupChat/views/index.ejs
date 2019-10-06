@@ -1,0 +1,93 @@
+<html>
+
+<head>
+    <title>Group Chat</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var socket = io.connect();
+            request_user();
+            socket.on('user_joined', function (data) {
+                let server_message = "";
+                server_message += "<p><span style='color:blue'> Server: " + data.username +
+                    " joined the group<p>";
+                $('#chat-box-content').append(server_message);
+            });
+            socket.on("display_message", function (data) {
+                let server_message = "";
+                server_message += "<p>" + data.username + ": " + data.message + "</p>";
+                $('#chat-box-content').append(server_message);
+            });
+            socket.on("display_old", function (data) {
+
+                for (let i = 0; i < data.length; i++) {
+                    let server_message = "";
+
+                    console.log(i);
+                    console.log(data[i]);
+                    server_message += "<p>" + data[i].username + ": " + data[i].message + "</p>";
+                    $('#chat-box-content').append(server_message);
+                }
+            });
+
+            $('#message-button').click(function () {
+                ProcessMessage();
+            });
+            $(document).on("keypress", function (e) {
+                if (e.which == 13) {
+                    event.preventDefault();
+                    ProcessMessage();
+                }
+            });
+            function ProcessMessage() {
+                message_data = {
+                    username: sessionStorage.getItem("username"),
+                    user_color: sessionStorage.getItem("user_color"),
+                    message: $('#message').val()
+                }
+                socket.emit("message_submitted", message_data);
+                message: $('#message').val("");
+            }
+            function request_user() {
+                name = prompt('Your name:', '');
+                login_data = {
+                    username: name
+                }
+                socket.emit("user_login", login_data);
+                sessionStorage.setItem("username", login_data.username);
+                sessionStorage.setItem("loggedIn", "true");
+                $('.chat-box').css("display", "inline-block");
+
+
+
+            }
+
+        })
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <div class="chat-box center">
+            <div class="chat-box-header">
+                <h4>Conversation Board</h4>
+            </div>
+            <div id="chat-box-content" class="left">
+
+            </div>
+            <div id="chat-box-submit" class="left">
+                <input id="message" class="message-input" type='text' name='message'
+                    placholder="Enter your message here...">
+                <input id="message-button" class="button-1" type='button' name="submit" value='Submit' class="button">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
