@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit</title>
+</head>
+
+<body>
+    <h1>Edit Rabbit <%=rabb.name%></h1>
+    <form action="/change/<%=rabb._id%>" method="post">
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" name="name" value="<%=rabb.name%>"></td>
+            </tr>
+            <br>
+            <tr>
+                <td>Age:</td>
+                <td><input type="text" name="age" value="<%=rabb.age%>"></td>
+            </tr>
+            <br>
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+    <form action="/delete/<%=rabb._id%>" method="post">
+        <input type="submit" value="Delete This Rabbit">
+    </form>
+</body>
+<% if(typeof(errors) != 'undefined' ) { %>
+<span style="color: red">Something went wrong</span>
+<p><%= errors%></p>
+<% for (var x in errors) { %>
+<h3><%= errors[x].messages %></h3>
+<% } %>
+<% } %>
+
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>All Rabbits</title>
+</head>
+
+<body>
+    <h1>Here are the Rabbits!</h1>
+    <% for (var x in arr) { %>
+    <p>Rabbit's name:<%= arr[x].name %></p>
+    <a href="rabbits/<%= arr[x]._id%>">More information about <%= arr[x].name %></a>
+    <hr>
+    <% } %>
+    <a href="/rabbits/new"> Add another Rabbit</a>
+</body>
+
+</html>
