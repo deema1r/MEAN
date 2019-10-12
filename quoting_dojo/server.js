@@ -18,35 +18,35 @@ var QuoteSchema = new mongoose.Schema({
     message: {type: String, required: true, minlength: 2}
     }, {timestamps: true})
 mongoose.model('Quote', QuoteSchema); 
-var Quote = mongoose.model('Quote');   
+//var Quote = mongoose.model('Quote');   
 
-   
-app.get('/', function(req, res) {
-    res.render('index');
-})
+require('./server/config/routes.js')(app);
+// app.get('/', function(req, res) {
+//     res.render('index');
+// })
   
 
-app.post('/quotes', function(req, res) {
-  console.log("POST DATA", req.body);
-  var quote = new Quote({name: req.body.name, message: req.body.message});
-  quote.save(function(err) {
-    if(err) {
-      console.log('something went wrong');
-      console.log(quote.errors);
-      res.render('index', {errors: quote.errors})
-    } 
-    else { 
-      console.log('successfully added a quote!');
-      res.redirect('/quotes');
-    }
-  })
-})
+// app.post('/quotes', function(req, res) {
+//   console.log("POST DATA", req.body);
+//   var quote = new Quote({name: req.body.name, message: req.body.message});
+//   quote.save(function(err) {
+//     if(err) {
+//       console.log('something went wrong');
+//       console.log(quote.errors);
+//       res.render('index', {errors: quote.errors})
+//     } 
+//     else { 
+//       console.log('successfully added a quote!');
+//       res.redirect('/quotes');
+//     }
+//   })
+// })
 
-  app.get('/quotes', function(req, res) {
-   arr = Quote.find({}, function(err, quotes) {
-     res.render('quotes', {arr:quotes});
-   })
- })
+//   app.get('/quotes', function(req, res) {
+//    arr = Quote.find({}, function(err, quotes) {
+//      res.render('quotes', {arr:quotes});
+//    })
+//  })
   
 app.listen(8000, function() {
     console.log("listening on port 8000");
