@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var Task = mongoose.model("Task");
+var Task = mongoose.model("Task", TaskSchema);
 
 module.exports = {
 
